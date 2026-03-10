@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Management System</title>
+
+    <script
+        src="https://sapui5.hana.ondemand.com/resources/sap-ui-core.js"
+        data-sap-ui-libs="sap.m,sap.ui.table,sap.ui.layout"
+        data-sap-ui-theme="sap_bluecrystal"
+        data-sap-ui-bindingSyntax="complex"
+		data-sap-ui-resourceroots='{
+		    "punit":"./"
+		}'>
+    </script>
+
+    <script>
+        // NEW: Load Component instead of View directly
+        sap.ui.require(
+            ["sap/ui/core/ComponentContainer"],
+            function (ComponentContainer) {
+                new ComponentContainer({
+                    name: "punit",
+                    manifest: true,
+                    async: true
+                }).placeAt("content");
+            }
+        );
+    </script>
+
+</head>
+
+<body class="sapUiBody">
+
+    <div id="content"></div>
+
+</body>
+</html>

@@ -1,0 +1,129 @@
+{
+  "_version": "1.12.0",
+  "sap.app": {
+    "id": "punit.management",
+    "type": "application",
+    "i18n": "i18n/i18n.properties",
+    "applicationVersion": {
+      "version": "1.0.0"
+    },
+    "title": "{{appTitle}}",
+    "description": "{{appDescription}}",
+    "sourceTemplate": {
+      "id": "ui5template.basicSAPUI5ApplicationProject",
+      "version": "1.0.0"
+    }
+  },
+  "sap.ui": {
+    "technology": "UI5",
+    "icons": {
+      "icon": "",
+      "favIcon": "",
+      "phone": "",
+      "phoneHighRes": "",
+      "tablet": "",
+      "tabletHighRes": ""
+    },
+    "deviceTypes": {
+      "desktop": true,
+      "tablet": true,
+      "phone": true
+    },
+    "supportedThemes": [
+      "sap_fiori_3",
+      "sap_fiori_3_dark"
+    ]
+  },
+  "sap.ui5": {
+    "flexEnabled": false,
+    "rootView": {
+      "viewName": "punit.view.App",
+      "type": "XML",
+      "async": true,
+      "id": "app"
+    },
+    "dependencies": {
+      "minUI5Version": "1.120.0",
+      "libs": {
+        "sap.ui.core": {},
+        "sap.m": {},
+        "sap.ui.layout": {},
+        "sap.ui.table": {}
+      }
+    },
+    "contentDensities": {
+      "compact": true,
+      "cozy": true
+    },
+    "models": {
+      "i18n": {
+        "type": "sap.ui.model.resource.ResourceModel",
+        "settings": {
+          "bundleName": "punit.i18n.i18n"
+        }
+      }
+    },
+	"routing": {
+	  "config": {
+	    "routerClass": "sap.m.routing.Router",
+	    "viewType": "XML",
+	    "viewPath": "punit.view",
+	    "controlId": "app",
+	    "controlAggregation": "pages",
+	    "async": true
+	  },
+
+	  "routes": [
+	    {
+	      "name": "RouteHome",
+	      "pattern": "",
+	      "target": "TargetHome"
+	    },
+	    {
+	      "name": "RouteVendor",
+	      "pattern": "vendor",
+	      "target": "TargetVendor"
+	    },
+	    {
+	      "name": "RouteProduct",
+	      "pattern": "product",
+	      "target": "TargetProduct"
+	    },
+	    {
+	      "name": "RouteCustomer",
+	      "pattern": "customer",
+	      "target": "TargetCustomer"
+	    }
+	  ],
+
+	  "targets": {
+	    "TargetHome": {
+	      "viewName": "Home",
+	      "viewId": "home",
+	      "viewLevel": 1
+	    },
+
+	    "TargetVendor": {
+	      "viewName": "Vendor",
+	      "viewId": "vendor",
+	      "viewLevel": 2
+	    },
+
+	    "TargetProduct": {
+	      "viewName": "Product",
+	      "viewId": "product",
+	      "viewLevel": 2
+	    },
+
+	    "TargetCustomer": {
+	      "viewName": "Customer",
+	      "viewId": "customer",
+	      "viewLevel": 2
+	    }
+	  }
+	},
+    "resourceRoots": {
+      "punit": "./"
+    }
+  }
+}

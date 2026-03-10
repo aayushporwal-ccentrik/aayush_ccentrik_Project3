@@ -1,0 +1,40 @@
+<mvc:View
+ xmlns:mvc="sap.ui.core.mvc"
+ xmlns="sap.m"
+ controllerName="punit.controller.App">
+
+<Page>
+
+<customHeader>
+    <Bar>
+        <contentMiddle>
+            <Title text="Management System" level="H1"/>
+        </contentMiddle>
+    </Bar>
+</customHeader>
+
+<VBox alignItems="Center" class="sapUiMediumMargin">
+
+<Title text="Welcome to Ccentrik" level="H1"/>
+
+<Title text="Choose Any one option" level="H2"/>
+
+<Button
+ text="Vendor Management"
+ press="onVendor"
+ width="200px"/>
+
+<Button
+ text="Product Management"
+ press="onProduct"
+ width="200px"/>
+
+<Button
+ text="Customer Management"
+ press="onCustomer"
+ width="200px"/>
+
+</VBox>
+
+</Page>
+</mvc:View>

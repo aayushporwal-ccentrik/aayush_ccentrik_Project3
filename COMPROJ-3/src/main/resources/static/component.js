@@ -1,0 +1,24 @@
+sap.ui.define([
+    "sap/ui/core/UIComponent",
+    "sap/ui/Device",
+    "punit/model/model"
+], function (UIComponent, Device, models) {
+    "use strict";
+
+    return UIComponent.extend("punit.Component", {
+
+        metadata: {
+            manifest: "json"
+        },
+
+        init: function () {
+
+            UIComponent.prototype.init.apply(this, arguments);
+
+            this.getRouter().initialize();
+
+            this.setModel(models.createDeviceModel(), "device");
+        }
+
+    });
+});
