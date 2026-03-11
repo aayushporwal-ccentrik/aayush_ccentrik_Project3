@@ -4,14 +4,14 @@ import jakarta.persistence.*;
 
 @Entity
 @Table(name = "SALESORDER_ITEM")
-public class SalesOrder_Item {
+public class SalesOrderItem {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "SO_ITEM_ID", nullable = false)
+    @Column(name = "ID", nullable = false)
     private Long soItemId;
-
-    @Column(name = "ITEM_NUMBER")
+    
+    @Column(name = "ITEM_NUMBER", nullable = false)
     private Integer itemNumber;
 
     @Column(name = "MATERIAL")
@@ -23,22 +23,22 @@ public class SalesOrder_Item {
     @Column(name = "UOM")
     private String uom;
 
-    @ManyToOne
-    @JoinColumn(name = "SO_ID", nullable = false)
-    private SalesOrder salesOrder;
+    @OneToOne
+    @JoinColumn(name = "SO_NUMBER", nullable = false)
+    private SalesOrderHeader salesOrderHeader;
 
-    public SalesOrder_Item() {
+    public SalesOrderItem() {
     }
 
-    public SalesOrder_Item(Long soItemId, Integer itemNumber,
+    public SalesOrderItem(Long soItemId, Integer itemNumber,
                            String material, Integer quantity, String uom,
-                           SalesOrder salesOrder) {
+                           SalesOrderHeader salesOrderHeader) {
         this.soItemId = soItemId;
         this.itemNumber = itemNumber;
         this.material = material;
         this.quantity = quantity;
         this.uom = uom;
-        this.salesOrder = salesOrder;
+        this.salesOrderHeader = salesOrderHeader;
     }
 
     public Long getSoItemId() {
@@ -81,11 +81,11 @@ public class SalesOrder_Item {
         this.uom = uom;
     }
 
-    public SalesOrder getSalesOrder() {
-        return salesOrder;
+    public SalesOrderHeader getSalesOrderHeader() {
+        return salesOrderHeader;
     }
 
-    public void setSalesOrder(SalesOrder salesOrder) {
-        this.salesOrder = salesOrder;
+    public void setSalesOrder(SalesOrderHeader salesOrderHeader) {
+        this.salesOrderHeader = salesOrderHeader;
     }
 }

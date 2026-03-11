@@ -33,6 +33,11 @@
  text="Customer Management"
  press="onCustomer"
  width="200px"/>
+ 
+ <Button
+ text="SalesOrder Management"
+ press="onSalesOrder"
+ width="200px"/>
 
 </VBox>
 

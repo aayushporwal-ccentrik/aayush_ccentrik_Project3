@@ -39,6 +39,14 @@ sap.ui.define([
         onCustomer: function () {
             this.oRouter.navTo("RouteCustomer");
         },
+		
+		
+		/**
+		 * Navigate to SalesOrder Management
+		 */
+		onSalesOrder: function () {
+		    this.oRouter.navTo("RouteSalesOrder");
+		},
 
         /**
          * Navigate Back

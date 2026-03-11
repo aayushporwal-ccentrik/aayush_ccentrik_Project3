@@ -93,7 +93,12 @@
 	      "name": "RouteCustomer",
 	      "pattern": "customer",
 	      "target": "TargetCustomer"
-	    }
+	    },
+		{
+		  "name": "RouteSalesOrder",
+		  "pattern": "salesorder",
+		  "target": "TargetSalesOrder"
+		}
 	  ],
 
 	  "targets": {
@@ -119,7 +124,13 @@
 	      "viewName": "Customer",
 	      "viewId": "customer",
 	      "viewLevel": 2
-	    }
+	    },
+		
+		"TargetSalesOrder": {
+		    "viewName": "salesorder",
+		    "viewId": "salesorder",
+		    "viewLevel": 2
+		  }
 	  }
 	},
     "resourceRoots": {
