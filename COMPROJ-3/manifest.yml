@@ -1,61 +1,48 @@
-#applications:
-#- name: Report_App
-#  path: target/COMPROJ-0.0.1-SNAPSHOT.war
-#  memory: 1024M
-#  random-route: true
-#  disk_quota: 1024M
-#  instances: 1
-#  buildpacks:
-#      - sap_java_buildpack_jakarta
-
-# SAP Cloud Foundry Manifest Configuration
-# Deployment file for PUNIT Management System
-# Updated: March 8, 2026
-
+---
 applications:
-- name: Report_App
-  path: target/COMPROJ-0.0.1-SNAPSHOT.war
-  
-  # Memory and Disk Configuration
-  memory: 1024M
-  disk_quota: 1024M
-  instances: 1
-  
-  # Route Configuration
-  random-route: false
-  routes:
-    - route: report-app2.cfapps.ap21.hana.ondemand.com
-  
-  # Buildpack for Jakarta (Java 17)
-  buildpacks:
-      - sap_java_buildpack_jakarta
-  
-  # Environment Variables
-  env:
-    # Java Options
-    JAVA_OPTS: "-Dspring.profiles.active=cloud"
+  - name: report_app
+    path: target/COMPROJ-0.0.1-SNAPSHOT.war
     
-    # Spring Boot Configuration
-    JBP_CONFIG_SPRING_AUTO_RECONFIGURATION: "{enabled: true}"
-    SPRING_PROFILES_ACTIVE: "cloud"
-    SPRING_CLOUD_SERVICES_ENABLED: "false"
+    # Memory and Disk Configuration
+    memory: 1024M
+    disk_quota: 1024M
+    instances: 1
     
-    # Optional: Database service binding (if using SAP HANA service)
-    # Uncomment if using bound database service
-    # DATABASE_NAME: "my-database"
-    # DATABASE_SCHEMA: "PUNIT"
+    # Route Configuration
+    random-route: true
     
-    # Logging
-    LOGGING_LEVEL_ROOT: "INFO"
-    LOGGING_LEVEL_COM_PUNIT: "DEBUG"
-  
-  # Services to bind (optional)
-  # Uncomment if you have database service in your Cloud Foundry space
-  # services:
-  #   - my-postgresql-instance
-  #   - my-hana-instance
-
-  # Health Check Configuration
-  health-check-type: http
-  health-check-http-endpoint: /
-  timeout: 180  # 3 minutes startup timeout
+    # ✅ CORRECT: Use java_buildpack (NOT sap_java_buildpack_jakarta)
+    # sap_java_buildpack_jakarta is for SAP-specific apps and may not be available
+    buildpacks:
+      - java_buildpack
+    
+    # ✅ Environment Variables for Java 17
+    env:
+      # ✅ CRITICAL: Force Java 17 runtime
+      JBP_CONFIG_OPEN_JDK_JRE: '{ jre: { version: 17.0.+ } }'
+      
+      # Java Options for Spring Boot
+      JAVA_OPTS: "-Dspring.profiles.active=cloud -Xmx768m -Xms512m"
+      
+      # Spring Boot Configuration
+      JBP_CONFIG_SPRING_AUTO_RECONFIGURATION: "{enabled: true}"
+      SPRING_PROFILES_ACTIVE: "cloud"
+      SPRING_CLOUD_SERVICES_ENABLED: "false"
+      
+      # Server Configuration
+      SERVER_PORT: "8080"
+      SERVER_SERVLET_CONTEXT_PATH: "/"
+      
+      # Logging
+      LOGGING_LEVEL_ROOT: "INFO"
+      LOGGING_LEVEL_COM_PUNIT: "DEBUG"
+    
+    # ✅ Service Binding - Change 'sql' to match your actual service name
+    # First, verify your service name with: cf services
+    services:
+      - sql
+    
+    # Health Check Configuration
+    health-check-type: http
+    health-check-http-endpoint: /
+    timeout: 180

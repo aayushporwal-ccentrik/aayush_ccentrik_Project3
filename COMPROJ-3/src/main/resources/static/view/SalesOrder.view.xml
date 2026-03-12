@@ -1,5 +1,4 @@
-<!-- Developed by Aayush 10-03-2026 -->
-
+<!-- Developed by Aayush 11-03-2026 -->
 <mvc:View xmlns:mvc="sap.ui.core.mvc"
     xmlns="sap.m"
     xmlns:t="sap.ui.table"
@@ -10,7 +9,7 @@
 
     <Page title="Sales Order Management System" showHeader="true" enableScrolling="true">
 
-        <!-- OPERATION SELECTION BUTTONS -->
+        <!-- OPERATION SELECTION BUTTONS — unchanged -->
         <Panel expandable="false" headerText="Select Operation"
             class="sapUiLargeMargin sapUiResponsiveMargin"
             visible="{/showOperationSelector}">
@@ -48,45 +47,11 @@
         <!--                CREATE SECTION               -->
         <!-- ═══════════════════════════════════════════ -->
 
-        <Panel expandable="false" headerText="Create — Select Type"
+        <Panel expandable="false" headerText="Create New Sales Order"
             class="sapUiLargeMargin sapUiResponsiveMargin"
-            visible="{/showCreateSelector}">
+            visible="{/showCreatePanel}">
 
-            <VBox alignItems="Center" class="sapUiMediumMargin">
-                <HBox justifyContent="Center" class="sapUiSmallMargin">
-
-                    <Button text="SO Header"
-                        type="Accept"
-                        press="onSelectCreateHeader"
-                        icon="sap-icon://document"
-                        width="170px"
-                        class="sapUiSmallMargin"/>
-
-                    <Button text="SO Item"
-                        type="Accept"
-                        press="onSelectCreateItem"
-                        icon="sap-icon://list"
-                        width="170px"
-                        class="sapUiSmallMargin"/>
-
-                    <Button text="Back"
-                        type="Default"
-                        press="onBack"
-                        icon="sap-icon://nav-back"
-                        width="150px"
-                        class="sapUiSmallMargin"/>
-
-                </HBox>
-            </VBox>
-
-        </Panel>
-
-        <!-- CREATE SO HEADER -->
-        <Panel expandable="false" headerText="Create New SO Header"
-            class="sapUiLargeMargin sapUiResponsiveMargin"
-            visible="{/showCreateHeaderPanel}">
-
-            <f:SimpleForm id="createHeaderForm"
+            <f:SimpleForm id="createCombinedForm"
                 editable="true"
                 layout="ResponsiveGridLayout"
                 labelSpanXL="3"
@@ -100,9 +65,19 @@
                 singleContainerFullSize="false">
 
                 <f:content>
+
+                    <!-- ── SO HEADER FIELDS ── -->
+                    <core:Title text="Sales Order Header" />
+
+                    <Label text="SO Number (optional)" />
+                    <Input id="createSoNumber"
+                        value="{/createPayload/salesOrderNumber}"
+                        placeholder="Leave blank to auto-generate"
+                        type="Number"/>
+
                     <Label text="Order Date *" />
                     <DatePicker id="createOrderDate"
-                        value="{/createHeaderPayload/dateOfOrder}"
+                        value="{/createPayload/dateOfOrder}"
                         displayFormat="yyyy-MM-dd"
                         valueFormat="yyyy-MM-dd"
                         placeholder="Select order date"
@@ -110,80 +85,59 @@
 
                     <Label text="Delivery Date" />
                     <DatePicker id="createDeliveryDate"
-                        value="{/createHeaderPayload/dateOfDelivery}"
+                        value="{/createPayload/dateOfDelivery}"
                         displayFormat="yyyy-MM-dd"
                         valueFormat="yyyy-MM-dd"
                         placeholder="Select delivery date"/>
 
+                    <!-- ✅ NEW: Customer field with F4 Help button -->
                     <Label text="Customer ID *" />
-                    <Input id="createCustomerId"
-                        value="{/createHeaderPayload/customer/customerId}"
-                        placeholder="Enter customer ID"
-                        required="true"/>
-                </f:content>
+                    <HBox>
+                        <Input id="createCustomerId"
+                            value="{/createPayload/customer/customerId}"
+                            placeholder="Enter customer ID"
+                            required="true"
+                            width="70%"/>
+                        
+                        <!-- ✅ NEW: F4 Help button -->
+                        <Button icon="sap-icon://value-help"
+                            press="onCustomerF4Help"
+                            tooltip="Click to select customer (F4)"
+                            width="auto"
+                            class="sapUiSmallMargin"/>
+                    </HBox>
 
-            </f:SimpleForm>
+                    <!-- ✅ NEW: Display selected customer name -->
+                    <Label text="Customer Name" />
+                    <Text text="{/createPayload/customer/name}"
+                        class="sapUiSmallMargin"/>
 
-            <Toolbar class="sapUiSmallMargin">
-                <Button text="Save" type="Accept" press="onSaveHeader" icon="sap-icon://save"/>
-                <Button text="Back" type="Default" press="onBackToCreateSelector" icon="sap-icon://nav-back"/>
-            </Toolbar>
-
-        </Panel>
-
-        <!-- CREATE SO ITEM -->
-        <Panel expandable="false" headerText="Create New SO Item"
-            class="sapUiLargeMargin sapUiResponsiveMargin"
-            visible="{/showCreateItemPanel}">
-
-            <f:SimpleForm id="createItemForm"
-                editable="true"
-                layout="ResponsiveGridLayout"
-                labelSpanXL="3"
-                labelSpanL="3"
-                labelSpanM="4"
-                labelSpanS="12"
-                adjustLabelSpan="false"
-                columnsXL="2"
-                columnsL="1"
-                columnsM="1"
-                singleContainerFullSize="false">
-
-                <f:content>
-                    <Label text="SO Number *" />
-                    <Input id="createItemSoNumber"
-                        value="{/createItemPayload/salesOrderHeader/salesOrderNumber}"
-                        placeholder="Enter sales order number"
-                        required="true"/>
-
-                    <Label text="Item Number *" />
-                    <Input id="createItemNumber"
-                        value="{/createItemPayload/itemNumber}"
-                        placeholder="Enter item number"
-                        required="true"/>
+                    <!-- ── SO ITEM FIELDS ── -->
+                    <core:Title text="Sales Order Item" />
 
                     <Label text="Material" />
                     <Input id="createItemMaterial"
-                        value="{/createItemPayload/material}"
+                        value="{/createPayload/material}"
                         placeholder="Enter material"/>
 
                     <Label text="Quantity" />
                     <Input id="createItemQuantity"
-                        value="{/createItemPayload/quantity}"
+                        value="{/createPayload/quantity}"
                         placeholder="Enter quantity"
                         type="Number"/>
 
                     <Label text="UOM" />
                     <Input id="createItemUom"
-                        value="{/createItemPayload/uom}"
+                        value="{/createPayload/uom}"
                         placeholder="Enter unit of measurement"/>
+
                 </f:content>
 
             </f:SimpleForm>
 
             <Toolbar class="sapUiSmallMargin">
-                <Button text="Save" type="Accept" press="onSaveItem" icon="sap-icon://save"/>
-                <Button text="Back" type="Default" press="onBackToCreateSelector" icon="sap-icon://nav-back"/>
+                <Button text="Save" type="Accept" press="onSaveCombined" icon="sap-icon://save"/>
+                <Button text="Back" type="Default" press="onBack" icon="sap-icon://nav-back"/>
             </Toolbar>
 
         </Panel>
@@ -232,10 +186,18 @@
                             </t:template>
                         </t:Column>
 
+                        <!-- ✅ NEW: Display Customer Name in table -->
                         <t:Column>
                             <Label text="Customer ID"/>
                             <t:template>
                                 <Text text="{customer/customerId}"/>
+                            </t:template>
+                        </t:Column>
+
+                        <t:Column>
+                            <Label text="Customer Name"/>
+                            <t:template>
+                                <Text text="{customer/name}"/>
                             </t:template>
                         </t:Column>
                     </t:columns>
@@ -255,16 +217,16 @@
 
                     <t:columns>
                         <t:Column width="100px">
-                            <Label text="SO Item ID"/>
+                            <Label text="Item No"/>
                             <t:template>
-                                <Text text="{soItemId}"/>
+                                <Text text="{itemNumber}"/>
                             </t:template>
                         </t:Column>
 
-                        <t:Column>
-                            <Label text="Item Number"/>
+                        <t:Column width="120px">
+                            <Label text="SO Number"/>
                             <t:template>
-                                <Text text="{itemNumber}"/>
+                                <Text text="{salesOrderHeader/salesOrderNumber}"/>
                             </t:template>
                         </t:Column>
 
@@ -289,12 +251,6 @@
                             </t:template>
                         </t:Column>
 
-                        <t:Column>
-                            <Label text="SO Number"/>
-                            <t:template>
-                                <Text text="{salesOrderHeader/salesOrderNumber}"/>
-                            </t:template>
-                        </t:Column>
                     </t:columns>
 
                 </t:Table>
@@ -311,7 +267,6 @@
             class="sapUiLargeMargin sapUiResponsiveMargin"
             visible="{/showUpdatePanel}">
 
-            <!-- Search bar for SO Item ID -->
             <f:SimpleForm id="updateSearchForm"
                 editable="true"
                 layout="ResponsiveGridLayout"
@@ -326,10 +281,10 @@
                 singleContainerFullSize="false">
 
                 <f:content>
-                    <Label text="Enter SO Item ID *" />
+                    <Label text="Enter Item Number *" />
                     <Input id="searchItemId"
                         value="{/searchItemId}"
-                        placeholder="Enter SO Item ID to search"
+                        placeholder="Enter Item Number to search"
                         required="true"/>
                 </f:content>
 
@@ -340,7 +295,7 @@
                 <Button text="Back" type="Default" press="onBack" icon="sap-icon://nav-back"/>
             </Toolbar>
 
-            <!-- Edit Panel — visible only when item found -->
+            <!-- Edit Panel -->
             <Panel expandable="false" visible="{/editItemMode}" headerText="Edit SO Item"
                 class="sapUiLargeMargin sapUiResponsiveMargin">
 
@@ -358,11 +313,11 @@
                     singleContainerFullSize="false">
 
                     <f:content>
-                        <Label text="SO Item ID" />
-                        <Text text="{/editItemPayload/soItemId}" />
-
                         <Label text="Item Number" />
                         <Text text="{/editItemPayload/itemNumber}" />
+
+                        <Label text="SO Number" />
+                        <Text text="{/editItemPayload/salesOrderHeader/salesOrderNumber}" />
 
                         <Label text="Material" />
                         <Text text="{/editItemPayload/material}" />
@@ -377,8 +332,6 @@
                         <Label text="UOM" />
                         <Text text="{/editItemPayload/uom}" />
 
-                        <Label text="SO Number" />
-                        <Text text="{/editItemPayload/salesOrderHeader/salesOrderNumber}" />
                     </f:content>
 
                 </f:SimpleForm>

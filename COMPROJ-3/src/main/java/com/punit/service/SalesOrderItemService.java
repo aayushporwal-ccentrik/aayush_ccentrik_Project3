@@ -1,3 +1,4 @@
+
 package com.punit.service;
 
 import java.util.List;
@@ -15,7 +16,7 @@ public class SalesOrderItemService {
 
     @Autowired
     ISalesOrderItemPersistence itemRepo;
-    
+
     @Autowired
     ISalesOrderHeaderPersistence headerRepo;
 
@@ -24,26 +25,33 @@ public class SalesOrderItemService {
         return itemRepo.findAll();
     }
 
-
-    // READ ONE
-    public Optional<SalesOrderItem> getItemById(Long id) {
-        return itemRepo.findById(id);
+    // READ ONE — by itemNumber (the @Id)
+    // ✅ CHANGED: parameter type Integer, method name reflects itemNumber key
+    public Optional<SalesOrderItem> getItemByItemNumber(Integer itemNumber) {
+        return itemRepo.findById(itemNumber);
     }
 
     // CREATE
     public SalesOrderItem createItem(SalesOrderItem obj) {
-        obj.setSoItemId(null);
-        Long soNumber = obj.getSalesOrderHeader().getSalesOrderNumber();       
+        // ✅ Null out itemNumber so DB auto-generates it (@GeneratedValue)
+        obj.setItemNumber(null);
+
+        Long soNumber = obj.getSalesOrderHeader().getSalesOrderNumber();
         SalesOrderHeader realHeader = headerRepo.findById(soNumber)
             .orElseThrow(() -> new RuntimeException("Sales Order not found: " + soNumber));
-        obj.setSalesOrder(realHeader);  
+
+        // ✅ setSalesOrderHeader() — renamed from setSalesOrder()
+        obj.setSalesOrderHeader(realHeader);
+
         return itemRepo.save(obj);
     }
 
-    // UPDATE — Only quantity can be changed
-    public SalesOrderItem updateItem(Long id, SalesOrderItem payload) {  // ✅ fixed
-        SalesOrderItem existing = itemRepo.findById(id)                   // ✅ fixed
-            .orElseThrow(() -> new RuntimeException("Item not found: " + id));
+    // UPDATE — only quantity can be changed
+    // ✅ CHANGED: id is now itemNumber (Integer)
+    public SalesOrderItem updateItem(Integer itemNumber, SalesOrderItem payload) {
+        SalesOrderItem existing = itemRepo.findById(itemNumber)
+            .orElseThrow(() -> new RuntimeException("Item not found: " + itemNumber));
         existing.setQuantity(payload.getQuantity());
         return itemRepo.save(existing);
-    }}
+    }
+}

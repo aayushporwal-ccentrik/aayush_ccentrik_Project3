@@ -19,10 +19,11 @@ public class SalesOrderItemController {
         return itemService.getAllItems();
     }
 
-    // GET ITEM BY ID
-    @GetMapping("/salesorderitem/{itemId}")
-    public SalesOrderItem getItemById(@PathVariable("itemId") Long id) {
-        Optional<SalesOrderItem> result = itemService.getItemById(id);
+    // GET ITEM BY ITEM NUMBER
+    // ✅ CHANGED: path var {itemNumber}, type Integer
+    @GetMapping("/salesorderitem/{itemNumber}")
+    public SalesOrderItem getItemByItemNumber(@PathVariable("itemNumber") Integer itemNumber) {
+        Optional<SalesOrderItem> result = itemService.getItemByItemNumber(itemNumber);
         if (!result.isPresent()) {
             return new SalesOrderItem();  // return empty object if not found
         }
@@ -36,19 +37,20 @@ public class SalesOrderItemController {
     }
 
     // UPDATE ITEM
-    @PutMapping("/salesorderitem/{itemId}")
+    // ✅ CHANGED: path var {itemNumber}, type Integer
+    @PutMapping("/salesorderitem/{itemNumber}")
     public SalesOrderItem updateItem(
-            @PathVariable("itemId") Long itemId,
+            @PathVariable("itemNumber") Integer itemNumber,
             @RequestBody SalesOrderItem item) {
 
-        return itemService.updateItem(itemId, item);
+        return itemService.updateItem(itemNumber, item);
     }
 
-	/*
-	 * // DELETE ITEM
-	 * 
-	 * @DeleteMapping("/salesorderitem/{itemId}") public String
-	 * deleteItem(@PathVariable("itemId") Long id) { return
-	 * itemService.deleteItem(id); }
-	 */
+    /*
+     * // DELETE ITEM
+     *
+     * @DeleteMapping("/salesorderitem/{itemNumber}") public String
+     * deleteItem(@PathVariable("itemNumber") Integer itemNumber) { return
+     * itemService.deleteItem(itemNumber); }
+     */
 }
