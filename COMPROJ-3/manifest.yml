@@ -1,6 +1,6 @@
 ---
 applications:
-  - name: report_app
+  - name: reportApp
     path: target/COMPROJ-0.0.1-SNAPSHOT.war
     
     # Memory and Disk Configuration
