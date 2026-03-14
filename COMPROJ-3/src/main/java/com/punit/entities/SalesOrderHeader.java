@@ -77,9 +77,9 @@ public class SalesOrderHeader {
 	  public void setCustomer(Customer customer) { this.customer = customer; }
 	 
 
-		/*
-		 * public List<SalesOrderItem> getItems() { return items; }
-		 * 
-		 * public void setItems(List<SalesOrderItem> items) { this.items = items; }
-		 */
+		
+		  public List<SalesOrderItem> getItems() { return items; }
+		  
+		  public void setItems(List<SalesOrderItem> items) { this.items = items; }
+		 
 }
