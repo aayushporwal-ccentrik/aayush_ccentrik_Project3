@@ -29,7 +29,7 @@ public class SalesOrderHeader {
 	  customer;
 	 
 
-	  @JsonManagedReference
+		/* @JsonManagedReference */
 		  @OneToMany(mappedBy = "salesOrderHeader", cascade = CascadeType.ALL) private
 		  List<SalesOrderItem> items;
 		 
